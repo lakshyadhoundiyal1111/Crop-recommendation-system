@@ -1,4 +1,8 @@
 Crop Recommendation Application
+![image](https://github.com/user-attachments/assets/d16ed6e6-bcdb-4c19-b955-df23eb0010b3)
+
+
+
 
 Overview
 
