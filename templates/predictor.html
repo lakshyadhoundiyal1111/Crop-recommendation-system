@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Recommendation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='predictionstyle.css') }}">
+    <style>
+        .soil-img {
+            cursor: pointer;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin: 10px;
+        }
+
+        .location-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a onclick="window.location.href='/';">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.png') }}"height="50" width = "50" alt="Logo" />
+                <h1 class="logo">Agri Advisor  </h1>
+            </div></a>
+            <nav class="nav">
+                <a onclick="window.location.href='/#about';">About</a>
+                <a onclick="window.location.href='/#services';">Services</a>
+                <a onclick="window.location.href='/#contact';">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+
+    <div class="container-form">
+        <h1 >Crop Recommendation System</h1>
+        <br>
+        <h2>Select type of soil</h2>
+
+        <!-- Display images for N, K, P values -->
+    <div style="text-align: center; margin: 10px;">
+        <div class="image-container" style="display: inline-block; margin: 2px;" onclick="applyBlueBackground(this); fillForm(75, 18, 200, 6.8)">
+            <img class="soil-img" src="{{ url_for('static', filename='redsoil.jpeg') }}" alt="Red Soil" style="cursor: pointer; width: 150px; height: 150px; object-fit: cover; margin: 10px;">
+            <p><b>Red Soil</b></p>
+        </div>
+        <div class="image-container" style="display: inline-block; margin: 2px;" onclick="applyBlueBackground(this); fillForm(80, 20, 300, 6.8)">
+            <img class="soil-img" src="{{ url_for('static', filename='blacksoil.jpeg') }}" alt="Black Soil" style="cursor: pointer; width: 150px; height: 150px; object-fit: cover; margin: 10px;">
+            <p><b>Black Soil</b></p>
+        </div>
+        <div class="image-container" style="display: inline-block; margin: 2px;" onclick="applyBlueBackground(this); fillForm(60, 25, 200), 6.8">
+            <img class="soil-img" src="{{ url_for('static', filename='alluvialsoil.jpeg') }}" alt="Alluvial Soil" style="cursor: pointer; width: 150px; height: 150px; object-fit: cover; margin: 10px;">
+            <p><b>Alluvial Soil</b></p>
+        </div>
+    </div>
+
+        <!-- Button to get location -->
+        <div class="location-button">
+            <button type="button" onclick="getLocationAndWeather()">Get Current Location and Weather</button>
+            <p id="locationDisplay">Location: Not Set</p>
+            <p id="weatherDisplay">Weather: Not Set</p>
+        </div>
+
+        <br><br>
+        <h2> Enter Manually</h2>
+
+        <!-- Form -->
+        <form id="predictionForm">
+            <label for="N">Nitrogen (NPK ratio):</label>
+            <input type="text" id="N" name="N" value="0" required><br>
+
+            <label for="K">Potassium (NPK ratio):</label>
+            <input type="text" id="K" name="K" value="0" required><br>
+
+            <label for="P">Phosphorus (NPK ratio):</label>
+            <input type="text" id="P" name="P" value="0" required><br>
+
+            <label for="ph">pH:</label>
+            <input type="text" id="ph" name="ph" value="0" required><br>
+
+            <label for="temperature">Temperature (Celcius):</label>
+            <input type="text" id="temperature" name="temperature" value="0" required><br>
+
+            <label for="humidity">Humidity (percentage in air):</label>
+            <input type="text" id="humidity" name="humidity" value="0" required><br>
+
+            <label for="rainfall">Rainfall (mm):</label>
+            <input type="text" id="rainfall" name="rainfall" value="0" required><br>
+
+            <button type="button" onclick="submitForm()">Predict</button>
+        </form>
+
+        <h2 id="result"></h2>
+    </div>
+
+    <script>
+        const apiKey = "ddf0b05677d4d69d9e367f6b3d8d944c" ; // Replace with your OpenWeather API key
+
+        // Function to fill in N, K, P values based on the image clicked
+        function fillForm(N, K, P) {
+            document.getElementById('N').value = N;
+            document.getElementById('K').value = K;
+            document.getElementById('P').value = P;
+        }
+
+        // Function to get the user's current location and fetch weather data
+        function getLocationAndWeather() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        // Display location
+                        document.getElementById('locationDisplay').innerText =
+                            `Location: Latitude ${latitude}, Longitude ${longitude}`;
+
+                        // Fetch weather data from OpenWeather API
+                        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`)
+                            .then((response) => response.json())
+                            .then((data) => {
+                                console.log(data); // Debugging: Log the API response
+                                if (data.cod !== 200) {
+                                    document.getElementById('weatherDisplay').innerText =
+                                        `Error fetching weather: ${data.message}`;
+                                    return;
+                                }
+
+                                // Extract weather information
+                                const temperature = data.main.temp ?? 'N/A';
+                                const humidity = data.main.humidity ?? 'N/A';
+                                const rainfall = data.rain ? data.rain['1h'] || 0 : 0;
+
+                                // Display weather
+                                document.getElementById('weatherDisplay').innerText =
+                                    `Weather: Temperature: ${temperature}°C, Humidity: ${humidity}%, Rainfall: ${rainfall} mm`;
+
+                                // Fill the form fields with weather data
+                                document.getElementById('temperature').value = temperature;
+                                document.getElementById('humidity').value = humidity;
+                                document.getElementById('rainfall').value = rainfall;
+                            })
+                            .catch((error) => {
+                                document.getElementById('weatherDisplay').innerText =
+                                    `Error fetching weather: ${error.message}`;
+                            });
+                    },
+                    (error) => {
+                        document.getElementById('locationDisplay').innerText =
+                            `Error: ${error.message}`;
+                    }
+                );
+            } else {
+                document.getElementById('locationDisplay').innerText =
+                    'Geolocation is not supported by this browser.';
+            }
+        }
+
+        // Function to submit the form and get prediction
+        function submitForm() {
+            const form = document.getElementById('predictionForm');
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = parseFloat(value);
+            });
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('result').innerText = 'Error: ' + data.error;
+                } else {
+                    document.getElementById('result').innerText = 'Recommended Crop: ' + data.crop;
+                }
+            })
+            .catch(error => {
+                document.getElementById('result').innerText = 'Error: ' + error;
+            });
+        }
+    </script>
+
+    <script>
+    let previousSelected = null; // Variable to store the previously selected image container
+
+    function applyBlueBackground(element) {
+        // If there's a previously selected element, remove the blue background
+        if (previousSelected) {
+            previousSelected.style.backgroundColor = ''; // Remove background color
+        }
+
+        // Apply blue background to the currently clicked element
+        element.style.backgroundColor = 'rgba(173, 216, 230, 0.5)';
+
+        // Update the previousSelected to the current element
+        previousSelected = element;
+    }
+    </script>
+
+    <footer class="footer">
+        <p>&copy; 2024 Agri Advisor. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

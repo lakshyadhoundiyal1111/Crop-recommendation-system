@@ -1,0 +1,133 @@
+a {
+    text-decoration: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #008000;
+    scroll-behavior: smooth
+}
+
+/* Container for the Form */
+.container-form {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 100px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: #008000;
+    color: #fff;
+    border: 600px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #005f00;
+}
+
+/* Result Styling */
+h2 {
+    margin-top: 20px;
+    color: #008000;
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #008000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 7px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img:hover,
+.logo-container h1:hover {
+    color: #D3D3D3;
+    cursor: pointer;
+}
+
+.logo {
+    margin-left: 10px; /* Add margin to separate the logo and text */
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #f9f9f9;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav a {
+    margin: 0 15px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav a:hover {
+    color: #D3D3D3;
+    cursor: pointer;
+}
+
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #008000;
+    color: #ffffff;
+    font-size: 0.9rem;
+    border-top: 1px solid #eeeeee;
+}

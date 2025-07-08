@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri Advisor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='indexstyle.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="#about">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.png') }}"height="50" width = "50" alt="Logo" />
+                <h1 class="logo">Agri Advisor  </h1>
+            </div>
+            </a>
+            <nav class="nav">
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="about" class="section about-section">
+        <div>
+            <h2>About Us</h2>
+            <p>Agri Advisor is committed to revolutionizing modern farming with innovative agricultural solutions. We empower farmers to achieve higher yields, adopt sustainable practices, and enhance crop management through cutting-edge technology and expert guidance. Our tailored solutions address the unique challenges of today’s agriculture, focusing on efficiency, productivity, and environmental responsibility. At Agri Advisor, we believe in fostering growth—both in fields and in communities—by delivering practical, science-driven strategies that ensure long-term success. Whether it’s precision farming tools, expert advice, or sustainable techniques, we are your trusted partner in advancing agricultural excellence. Together, we can cultivate a greener, more prosperous future for farmers everywhere.</p>
+        </div>
+        <div class="image">
+            <img src="{{ url_for('static', filename='aboutUsArt.webp') }}" alt="Farming Illustration">
+        </div>
+    </section>
+    <section id="services" class="section services-section">
+        <h2>Our Services</h2>
+        <div class="services-container">
+            <div class="service">
+                <h3>Crop Recommendation Generator</h3>
+                <p>Know what crop is best suited for you with the push of a button</p>
+                <a class="explore-btn" onclick="window.location.href='/predictor';">Explore</a>
+            </div>
+            <div class="service">
+                <h3>Service 2</h3>
+                <p>Our solutions are designed for sustainable farming practices.</p>
+                <a href="#" class="explore-btn">Explore</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+        <h2>Contact Us</h2>
+        <div class="contact-container">
+            <!-- First Contact Block -->
+            <div class="contact-block">
+                <div class="contact-img-container">
+                    <img src="{{ url_for('static', filename='image1.jpg') }}" alt="Person 1" class="contact-img">
+                </div>
+                <h3>Swargam Gogoi</h3>
+                <p>Roll Number: 08821202022</p>
+            </div>
+
+            <!-- Second Contact Block -->
+            <div class="contact-block">
+                <div class="contact-img-container">
+                    <img src="{{ url_for('static', filename='image2.jpg') }}" alt="Person 2" class="contact-img">
+                </div>
+                <h3>Lakshya Dhoundiyal</h3>
+                <p>Roll Number: 10121202022</p>
+            </div>
+
+            <!-- Third Contact Block -->
+            <div class="contact-block">
+                <div class="contact-img-container">
+                    <img src="{{ url_for('static', filename='image3.jpg') }}" alt="Person 3" class="contact-img">
+                </div>
+                <h3>Parag Chaudhary</h3>
+                <p>Roll Number: 05521202022</p>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <p>&copy; 2024 Agri Advisor. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

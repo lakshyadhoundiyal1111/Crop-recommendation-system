@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Info</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='helpstyle.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a onclick="window.location.href='/';">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.png') }}"height="50" width = "50" alt="Logo" />
+                <h1 class="logo">Agri Advisor  </h1>
+            </div></a>
+            <nav class="nav">
+                <a onclick="window.location.href='/#about';">About</a>
+                <a onclick="window.location.href='/#services';">Services</a>
+                <a onclick="window.location.href='/#contact';">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+
+    <div class="container-form">
+        <h1 >Crop Information Guidebook</h1>
+        <br><br>
+        <h2> Which Crop do you want to know about?</h2>
+        <br>
+        <!-- Form -->
+        <form id="dataForm" onsubmit="event.preventDefault(); submitForm();" method="POST">
+        <label for="crop-name">Select a crop:</label>
+        <select id="crop-name" name="crop_name">
+            <option value="apple">Apple</option>
+            <option value="banana">Banana</option>
+            <option value="blackgram">Blackgram</option>
+            <option value="chickpea">Chickpea</option>
+            <option value="coconut">Coconut</option>
+            <option value="coffee">Coffee</option>
+            <option value="cotton">Cotton</option>
+            <option value="grapes">Grapes</option>
+            <option value="jute">Jute</option>
+            <option value="kidney_beans">Kidney Beans</option>
+            <option value="lentil">Lentil</option>
+            <option value="maize">Maize</option>
+            <option value="mango">Mango</option>
+            <option value="mothbeans">Moth Beans</option>
+            <option value="mungbean">Mungbean</option>
+            <option value="muskmelon">Muskmelon</option>
+            <option value="orange">Orange</option>
+            <option value="papaya">Papaya</option>
+            <option value="pigeonpeas">Pigeon Peas</option>
+            <option value="pomegranate">Pomegranate</option>
+            <option value="rice">Rice</option>
+            <option value="watermelon">Watermelon</option>
+        </select>
+        <br>
+        <button type="submit">Search</button>
+        </form>
+
+        <h4 id="result"></h4>
+    </div>
+
+    <script>
+        function submitForm() {
+    const inputString = document.getElementById('crop-name').value; // Get input value directly
+
+    fetch('/find-crop', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ input: inputString }) // Send JSON with "input" key
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Parse JSON only if response is okay
+    })
+    .then(data => {
+        if (data.error) {
+            document.getElementById('result').innerText = 'Error: ' + data.error;
+        } else {
+            document.getElementById('result').innerText =
+                `Crop Name: ${data.crop_name}, Result: ${data.result}`;
+        }
+    })
+    .catch(error => {
+        document.getElementById('result').innerText = 'Error: ' + error.message;
+    });
+}
+    </script>
+
+    <footer class="footer">
+        <p>&copy; 2024 Agri Advisor. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
